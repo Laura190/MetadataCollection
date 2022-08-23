@@ -6,27 +6,35 @@ import csv
 import os.path
 
 
-class MetaCollApp(QMainWindow):
+class home(QMainWindow):
     def __init__(self):
         QWidget.__init__(self)
         # Window setup
         self.resize(600, 600)
         self.setWindowTitle('Starting a new imaging session?')
         self.setWindowIcon(QIcon('square_black.jpg'))
+        # Menu setup
+        menu_bar = self.menuBar()
+        file_menu = menu_bar.addMenu('&File')
+        load_file_act = QAction('Load', self)
+        load_file_act.triggered.connect(self.load_file)
+        file_menu.addAction(load_file_act)
+        settings_menu = menu_bar.addMenu('&Settings')
+        change_settings_act = QAction('&Change Settings', self)
+        self.change_settings = Editor()
+        change_settings_act.triggered.connect(self.change_settings.show)
+        settings_menu.addAction(change_settings_act)
+        help_menu = menu_bar.addMenu('&Help')
+        document = QAction('&Documentation', self)
+        # document.triggered.connect(self.change_settings.show)
+        help_menu.addAction(document)
+        self.setCentralWidget(self.centralWidget())
+
+    def centralWidget(self):
         self.folder = False
         font = self.font()
         font.setPointSize(16)
         self.window().setFont(font)
-        # Menu setup
-        menu_bar = self.menuBar()
-        settings_menu = menu_bar.addMenu('&Settings')
-        change_settings = QAction('&Change Settings', self)
-        change_settings.triggered.connect(self.change_settings)
-        settings_menu.addAction(change_settings)
-        help_menu = menu_bar.addMenu('&Help')
-        document = QAction('&Documentation', self)
-        document.triggered.connect(self.change_settings)
-        help_menu.addAction(document)
         folder_lbl = QLabel()
         folder_lbl.setText(
             "Select data folder <html><img height=16 src='info.png'></html>")
@@ -34,6 +42,10 @@ class MetaCollApp(QMainWindow):
             "<html>Select or create folder where you will save the \
             images</html>")
         self.folder_edt = QLineEdit()
+        with open('settings.csv', 'r') as file:
+            self.folder = file.readlines(1)[0].strip(
+                ', ').split(',')[1].rstrip()
+        self.folder_edt.setText(self.folder)
         browse = QPushButton('Browse')
         browse.clicked.connect(self.get_folder)  # change to get folder path
         description_lbl = QLabel()
@@ -75,7 +87,7 @@ class MetaCollApp(QMainWindow):
         close_btn = QPushButton('Save and Close')
         close_btn.clicked.connect(self.save_and_close)
         # Layout
-        self.grid = QGridLayout(self)
+        self.grid = QGridLayout()
         self.grid.addWidget(folder_lbl, 0, 0)
         self.grid.addWidget(self.folder_edt, 0, 1)
         self.grid.addWidget(browse, 0, 2)
@@ -91,24 +103,33 @@ class MetaCollApp(QMainWindow):
         self.grid.addWidget(self.add_edt, 5, 1, 1, 2)
         self.grid.addWidget(save_btn, 6, 1)
         self.grid.addWidget(close_btn, 6, 2)
+        w = QWidget()
+        w.setLayout(self.grid)
+        return(w)
 
     def get_folder(self):
         self.folder = QFileDialog.getExistingDirectory(
-                None, "Select Folder", "/home/laura")
+            None, "Select Folder", self.folder_edt.text())
         self.folder_edt.setText(self.folder)
 
     def save_metadata(self):
         if self.folder and os.path.exists(self.folder):
-            with open(self.folder+'/Metadata.csv', 'w') as csvfile:
-                filewriter = csv.writer(
-                    csvfile, delimiter=',', quotechar='|', quoting=csv.QUOTE_MINIMAL)
-                filewriter.writerow(
-                    ['Study Component Description', self.description_edt.text()])
-                filewriter.writerow(
-                    ['Biological Entity', self.bioentity_edt.text()])
-                filewriter.writerow(['Organism', self.organism_edt.text()])
-                filewriter.writerow(['Variables', self.variables_edt.text()])
-                filewriter.writerow(['Other', self.add_edt.toPlainText()])
+            with open('settings.csv', 'r') as file:
+                reader = csv.reader(file)
+                meta_dict = {rows[0]: rows[1] for rows in reader}
+            meta_dict.pop('Data Folder', None)
+            user_dict = {
+                'Study Component Description': self.description_edt.text(),
+                'Biological Entity': self.bioentity_edt.text(),
+                'Organism': self.organism_edt.text(),
+                'Variables': self.variables_edt.text(),
+                'Other': self.add_edt.toPlainText()}
+            meta_dict.update(user_dict)
+            with open(self.folder+'/Metadata.csv', 'w', newline='') as csvfile:
+                filewriter = csv.writer(csvfile)
+                for key in meta_dict:
+                    filewriter.writerow([key, meta_dict[key]])
+
         else:
             msg = QMessageBox()
             msg.setIcon(QMessageBox.Critical)
@@ -122,5 +143,60 @@ class MetaCollApp(QMainWindow):
         self.save_metadata()
         exit()
 
-    def change_settings(self):
-        print("change settings")
+    def load_file(self):
+        self.file = QFileDialog.getOpenFileName(
+            None, "Select Metadata File", self.folder_edt.text())
+        # opening the CSV file
+        with open(str(self.file[0]), mode='r')as file:
+            reader = csv.reader(file)
+            meta_dict = {rows[0]: rows[1] for rows in reader}
+            self.description_edt.setText(
+                meta_dict['Study Component Description'])
+            self.bioentity_edt.setText(meta_dict['Biological Entity'])
+            self.organism_edt.setText(meta_dict['Organism'])
+            self.variables_edt.setText(meta_dict['Variables']),
+            self.add_edt.setPlainText(meta_dict['Other'])
+
+
+class Editor(QWidget):
+    def __init__(self):
+        QWidget.__init__(self)
+        self.textEdit = QTextEdit()
+        with open('settings.csv', 'r') as file:
+            next(file)
+            self.textEdit.setPlainText(file.read())
+        self.label = QLabel("Settings for all users")
+        # Sa   ve Button
+        save_btn = QPushButton('Save and Close')
+        save_btn.clicked.connect(self.save_settings)
+        folder_lbl = QLabel()
+        folder_lbl.setText("Select default data folder")
+        self.folder_edt = QLineEdit()
+        with open('settings.csv', 'r') as file:
+            data_folder = file.readlines(1)
+            self.folder_edt.setText(
+                data_folder[0].strip(', ').split(',')[1].rstrip())
+        browse = QPushButton('Browse')
+        browse.clicked.connect(self.get_folder)
+        # Layout
+        layout = QGridLayout()
+        layout.addWidget(self.label, 0, 0)
+        layout.addWidget(folder_lbl, 1, 0)
+        layout.addWidget(self.folder_edt, 1, 1)
+        layout.addWidget(browse, 1, 2)
+        layout.addWidget(self.textEdit, 2, 0, 1, 3)
+        layout.addWidget(save_btn, 3, 0, 1, 3)
+        self.setLayout(layout)
+
+    def save_settings(self):
+        with open('settings.csv', 'w') as file:
+            file.write('Data Folder,'+self.folder_edt.text())
+            file.write('\n'+self.textEdit.toPlainText())
+            self.close()
+
+    def get_folder(self):
+        with open('settings.csv', 'r') as file:
+            data_folder = file.readlines(1)
+        self.folder = QFileDialog.getExistingDirectory(
+            None, "Select Folder", data_folder[0].strip(', ').split(',')[1].rstrip())
+        self.folder_edt.setText(self.folder)

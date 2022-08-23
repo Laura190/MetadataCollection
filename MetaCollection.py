@@ -11,6 +11,6 @@ import MetaCollApp
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
-    window = MetaCollApp.MetaCollApp()
+    window = MetaCollApp.home()
     window.show()
-    sys.exit(app.exec())
+    app.exec()

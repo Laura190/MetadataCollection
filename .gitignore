@@ -1,2 +1,5 @@
 __pycache__
 test
+packages.txt
+settings.csv
+sysroot.toml
