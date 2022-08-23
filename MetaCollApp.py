@@ -2,6 +2,7 @@ from PyQt5.QtWidgets import QWidget, QPushButton, QMainWindow
 from PyQt5.QtWidgets import QLabel, QLineEdit, QGridLayout, QTextEdit
 from PyQt5.QtWidgets import QFileDialog, QMessageBox, QAction
 from PyQt5.QtGui import QIcon
+from PyQt5.QtCore import QSettings
 import csv
 import os.path
 
@@ -13,6 +14,7 @@ class home(QMainWindow):
         self.resize(600, 600)
         self.setWindowTitle('Starting a new imaging session?')
         self.setWindowIcon(QIcon('square_black.jpg'))
+        self.settings = QSettings()
         # Menu setup
         menu_bar = self.menuBar()
         file_menu = menu_bar.addMenu('&File')
@@ -21,7 +23,7 @@ class home(QMainWindow):
         file_menu.addAction(load_file_act)
         settings_menu = menu_bar.addMenu('&Settings')
         change_settings_act = QAction('&Change Settings', self)
-        self.change_settings = Editor()
+        self.change_settings = Editor(self.settings)
         change_settings_act.triggered.connect(self.change_settings.show)
         settings_menu.addAction(change_settings_act)
         help_menu = menu_bar.addMenu('&Help')
@@ -42,9 +44,7 @@ class home(QMainWindow):
             "<html>Select or create folder where you will save the \
             images</html>")
         self.folder_edt = QLineEdit()
-        with open('settings.csv', 'r') as file:
-            self.folder = file.readlines(1)[0].strip(
-                ', ').split(',')[1].rstrip()
+        self.folder = self.settings.value('Data Folder')
         self.folder_edt.setText(self.folder)
         browse = QPushButton('Browse')
         browse.clicked.connect(self.get_folder)  # change to get folder path
@@ -114,22 +114,18 @@ class home(QMainWindow):
 
     def save_metadata(self):
         if self.folder and os.path.exists(self.folder):
-            with open('settings.csv', 'r') as file:
-                reader = csv.reader(file)
-                meta_dict = {rows[0]: rows[1] for rows in reader}
-            meta_dict.pop('Data Folder', None)
-            user_dict = {
-                'Study Component Description': self.description_edt.text(),
-                'Biological Entity': self.bioentity_edt.text(),
-                'Organism': self.organism_edt.text(),
-                'Variables': self.variables_edt.text(),
-                'Other': self.add_edt.toPlainText()}
+            meta_dict = {default.split(',')[0]: default.split(',')[
+                                       1] for default in self.settings.value('Defaults').replace(', ', ',').split('\n')}
+            user_dict = {'Study Component Description': self.description_edt.text(),
+                         'Biological Entity': self.bioentity_edt.text(),
+                         'Organism': self.organism_edt.text(),
+                         'Variables': self.variables_edt.text(),
+                         'Other': self.add_edt.toPlainText()}
             meta_dict.update(user_dict)
             with open(self.folder+'/Metadata.csv', 'w', newline='') as csvfile:
                 filewriter = csv.writer(csvfile)
                 for key in meta_dict:
                     filewriter.writerow([key, meta_dict[key]])
-
         else:
             msg = QMessageBox()
             msg.setIcon(QMessageBox.Critical)
@@ -145,13 +141,13 @@ class home(QMainWindow):
 
     def load_file(self):
         self.file = QFileDialog.getOpenFileName(
-            None, "Select Metadata File", self.folder_edt.text())
+                    None, "Select Metadata File", self.folder_edt.text())
         # opening the CSV file
         with open(str(self.file[0]), mode='r')as file:
             reader = csv.reader(file)
             meta_dict = {rows[0]: rows[1] for rows in reader}
             self.description_edt.setText(
-                meta_dict['Study Component Description'])
+                    meta_dict['Study Component Description'])
             self.bioentity_edt.setText(meta_dict['Biological Entity'])
             self.organism_edt.setText(meta_dict['Organism'])
             self.variables_edt.setText(meta_dict['Variables']),
@@ -159,25 +155,26 @@ class home(QMainWindow):
 
 
 class Editor(QWidget):
-    def __init__(self):
+    def __init__(self, settings):
         QWidget.__init__(self)
         self.textEdit = QTextEdit()
-        with open('settings.csv', 'r') as file:
-            next(file)
-            self.textEdit.setPlainText(file.read())
-        self.label = QLabel("Settings for all users")
-        # Sa   ve Button
-        save_btn = QPushButton('Save and Close')
-        save_btn.clicked.connect(self.save_settings)
         folder_lbl = QLabel()
         folder_lbl.setText("Select default data folder")
         self.folder_edt = QLineEdit()
-        with open('settings.csv', 'r') as file:
-            data_folder = file.readlines(1)
-            self.folder_edt.setText(
-                data_folder[0].strip(', ').split(',')[1].rstrip())
         browse = QPushButton('Browse')
-        browse.clicked.connect(self.get_folder)
+        browse.clicked.connect(lambda: self.get_folder(settings))
+        try:
+            self.textEdit.setPlainText(settings.value('Defaults'))
+            self.folder_edt.setText(settings.value('Data Folder'))
+        except:
+            self.textEdit.setPlainText(
+                'Imaging Method, None\n Microscope, None')
+            self.folder_edt.setText(settings.value(''))
+        self.label = QLabel("Settings for all users")
+        # Save Button
+        save_btn = QPushButton('Save and Close')
+        save_btn.clicked.connect(
+                    lambda: self.save_settings(settings))
         # Layout
         layout = QGridLayout()
         layout.addWidget(self.label, 0, 0)
@@ -188,15 +185,14 @@ class Editor(QWidget):
         layout.addWidget(save_btn, 3, 0, 1, 3)
         self.setLayout(layout)
 
-    def save_settings(self):
-        with open('settings.csv', 'w') as file:
-            file.write('Data Folder,'+self.folder_edt.text())
-            file.write('\n'+self.textEdit.toPlainText())
-            self.close()
+    def save_settings(self, settings):
+        settings.setValue(
+                    'Data Folder', self.folder_edt.text())
+        settings.setValue(
+                    'Defaults', self.textEdit.toPlainText())
+        self.close()
 
-    def get_folder(self):
-        with open('settings.csv', 'r') as file:
-            data_folder = file.readlines(1)
+    def get_folder(self, settings):
         self.folder = QFileDialog.getExistingDirectory(
-            None, "Select Folder", data_folder[0].strip(', ').split(',')[1].rstrip())
+                    None, "Select Folder", settings.value('Data Folder'))
         self.folder_edt.setText(self.folder)
