@@ -15,6 +15,13 @@ class home(QMainWindow):
         self.setWindowTitle('Starting a new imaging session?')
         self.setWindowIcon(QIcon('square_black.jpg'))
         self.settings = QSettings()
+        # Default settings
+        if not self.settings.value('Data Folder'):
+            user_home = os.path.expanduser("~")
+            self.settings.setValue('Data Folder', user_home)
+        if not self.settings.value('General'):
+            self.settings.setValue(
+                'General', 'Imaging Method, None\nMicroscope, None')
         # Menu setup
         menu_bar = self.menuBar()
         file_menu = menu_bar.addMenu('&File')
@@ -115,7 +122,7 @@ class home(QMainWindow):
     def save_metadata(self):
         if self.folder and os.path.exists(self.folder):
             meta_dict = {default.split(',')[0]: default.split(',')[
-                                       1] for default in self.settings.value('Defaults').replace(', ', ',').split('\n')}
+                                       1] for default in self.settings.value('General').replace(', ', ',').split('\n')}
             user_dict = {'Study Component Description': self.description_edt.text(),
                          'Biological Entity': self.bioentity_edt.text(),
                          'Organism': self.organism_edt.text(),
@@ -163,13 +170,8 @@ class Editor(QWidget):
         self.folder_edt = QLineEdit()
         browse = QPushButton('Browse')
         browse.clicked.connect(lambda: self.get_folder(settings))
-        try:
-            self.textEdit.setPlainText(settings.value('Defaults'))
-            self.folder_edt.setText(settings.value('Data Folder'))
-        except:
-            self.textEdit.setPlainText(
-                'Imaging Method, None\n Microscope, None')
-            self.folder_edt.setText(settings.value(''))
+        self.textEdit.setPlainText(settings.value('General'))
+        self.folder_edt.setText(settings.value('Data Folder'))
         self.label = QLabel("Settings for all users")
         # Save Button
         save_btn = QPushButton('Save and Close')
@@ -189,10 +191,10 @@ class Editor(QWidget):
         settings.setValue(
                     'Data Folder', self.folder_edt.text())
         settings.setValue(
-                    'Defaults', self.textEdit.toPlainText())
+                    'General', self.textEdit.toPlainText())
         self.close()
 
     def get_folder(self, settings):
         self.folder = QFileDialog.getExistingDirectory(
-                    None, "Select Folder", settings.value('Data Folder'))
+            None, "Select Folder", settings.value('Data Folder'))
         self.folder_edt.setText(self.folder)
