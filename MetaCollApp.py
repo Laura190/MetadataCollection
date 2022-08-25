@@ -150,15 +150,16 @@ class home(QMainWindow):
         self.file = QFileDialog.getOpenFileName(
                     None, "Select Metadata File", self.folder_edt.text())
         # opening the CSV file
-        with open(str(self.file[0]), mode='r')as file:
-            reader = csv.reader(file)
-            meta_dict = {rows[0]: rows[1] for rows in reader}
-            self.description_edt.setText(
-                    meta_dict['Study Component Description'])
-            self.bioentity_edt.setText(meta_dict['Biological Entity'])
-            self.organism_edt.setText(meta_dict['Organism'])
-            self.variables_edt.setText(meta_dict['Variables']),
-            self.add_edt.setPlainText(meta_dict['Other'])
+        if self.file[0]:
+            with open(str(self.file[0]), mode='r')as file:
+                reader = csv.reader(file)
+                meta_dict = {rows[0]: rows[1] for rows in reader}
+                self.description_edt.setText(
+                        meta_dict['Study Component Description'])
+                self.bioentity_edt.setText(meta_dict['Biological Entity'])
+                self.organism_edt.setText(meta_dict['Organism'])
+                self.variables_edt.setText(meta_dict['Variables']),
+                self.add_edt.setPlainText(meta_dict['Other'])
 
 
 class Editor(QWidget):
