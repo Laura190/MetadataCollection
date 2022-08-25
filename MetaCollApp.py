@@ -123,7 +123,8 @@ class home(QMainWindow):
         if self.folder and os.path.exists(self.folder):
             meta_dict = {default.split(',')[0]: default.split(',')[
                                        1] for default in self.settings.value('General').replace(', ', ',').split('\n')}
-            user_dict = {'Study Component Description': self.description_edt.text(),
+            user_dict = {'Study Component Name': os.path.basename(self.folder),
+                         'Study Component Description': self.description_edt.text(),
                          'Biological Entity': self.bioentity_edt.text(),
                          'Organism': self.organism_edt.text(),
                          'Variables': self.variables_edt.text(),
