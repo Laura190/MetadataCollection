@@ -8,9 +8,36 @@ An app to collect essential metadata for bioimaging.
 # Getting Started
 
 <img align="right" width=400px src="./images/StartingScreen.png">
-Fill in the requested details
+Fill in the requested details. Hovering over the blue "i" icons will give more information about what should be entered into each box. Only _Select data folder_ is required, all other details are optional. When you are finished, click the _Save_ button. The window will remain open so that you can continue editing the metadata during the imaging session. At the end of the imaging session, click _Save and Close_ to close the app.
+
+##### Select data folder
+This is the folder where you will be storing your image data. Click the _Browse_ button to open the file browser to browse for a folder or can create a new folder for you imaging session.
+
+##### Description
+Here you should describe your imaging session. Briefly describe what you are aiming to achive
+
+##### Biological Entity
+State what you are imaging. You should use an ontology such as the [Experimental Factor Ontology](https://www.ebi.ac.uk/efo/). You can search for approriate entries using the [Ontology Lookup Service](https://www.ebi.ac.uk/ols/ontologies/efo)
+
+##### Organism
+State the species of your sample(s). You should use a [taxonomy](https://www.ncbi.nlm.nih.gov/taxonomy).
+
+##### Variables
+List the variables in your study. These could be intrinsic (e.g. genetic), extrinsic (e.g. reagent) or experimental (e.g. time). You should use [ontology entries](https://www.ebi.ac.uk/ols/ontologies/efo) if possible.
+
+##### Other
+Here you can include any other information about your imaging session. For example, if you are using abbreviations in file names you could include the definitions here. You could also include information about the preparation of the sample, how signal is generated or what each channel shows.
+
 <br clear="right"/>
 
+### References
+Sarkans, U., Chiu, W., Collinson, L. et al. REMBI: Recommended Metadata for Biological Images—enabling reuse of microscopy data in biology. Nat Methods 18, 1418–1422 (2021). https://doi.org/10.1038/s41592-021-01166-8
+
+Malone J, Holloway E, Adamusiak T, Kapushesky M, Zheng J, Kolesnikov N, Zhukova A, Brazma A, Parkinson H: Modeling Sample Variables with an Experimental Factor Ontology. Bioinformatics 2010, 26(8):1112-1118
+
+Jupp S. et al. (2015) A new Ontology Lookup Service at EMBL-EBI. In: Malone, J. et al. (eds.) Proceedings of SWAT4LS International Conference 2015
+
+Schoch CL, et al. NCBI Taxonomy: a comprehensive update on curation, resources and tools. Database (Oxford). 2020: baaa062. PubMed: 32761142 PMC: PMC7408187
 
 Text can be **bold**, _italic_, or ~~strikethrough~~.
 
