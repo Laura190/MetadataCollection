@@ -7,8 +7,9 @@ An app to collect essential metadata for bioimaging.
 
 # Getting Started
 
-<img align="right" width=400px src="./images/StartingScreen.png">
+<img align="right" width=300px src="./images/StartingScreen.png">
 Fill in the requested details. Hovering over the blue "i" icons will give more information about what should be entered into each box. Only _Select data folder_ is required, all other details are optional. When you are finished, click the _Save_ button. The window will remain open so that you can continue editing the metadata during the imaging session. At the end of the imaging session, click _Save and Close_ to close the app.
+<br clear="right"/>
 
 ##### Select data folder
 This is the folder where you will be storing your image data. Click the _Browse_ button to open the file browser to browse for a folder or can create a new folder for you imaging session.
@@ -28,7 +29,7 @@ List the variables in your study. These could be intrinsic (e.g. genetic), extri
 ##### Other
 Here you can include any other information about your imaging session. For example, if you are using abbreviations in file names you could include the definitions here. You could also include information about the preparation of the sample, how signal is generated or what each channel shows.
 
-<br clear="right"/>
+
 
 ### References
 Sarkans, U., Chiu, W., Collinson, L. et al. REMBI: Recommended Metadata for Biological Images—enabling reuse of microscopy data in biology. Nat Methods 18, 1418–1422 (2021). https://doi.org/10.1038/s41592-021-01166-8
