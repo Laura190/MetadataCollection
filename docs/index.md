@@ -59,6 +59,12 @@ This should be set to the data drive of the microscope and will be the default l
 ##### Text Box
 The text box below allows any text to be entered. Here, comma separated key value pairs should be entered that describe the imaging system. These details will be added to all metadata files for all users.
 
+# Support
+
+Please contact CAMDU@warwick.ac.uk with queries.
+
+Report bugs or requests for improvement via the project's [Github Issues](https://github.com/Laura190/MetadataCollection/issues)
+
 # References
 Sarkans, U., Chiu, W., Collinson, L. et al. REMBI: Recommended Metadata for Biological Images—enabling reuse of microscopy data in biology. Nat Methods 18, 1418–1422 (2021). https://doi.org/10.1038/s41592-021-01166-8
 
