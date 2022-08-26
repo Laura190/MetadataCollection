@@ -7,7 +7,7 @@ An app to collect essential metadata for bioimaging.
 
 # Getting Started
 
-<img align="right" width=200px src="./images/StartingScreen.png">
+<img align="right" width=600px src="./images/StartingScreen.png">
 Fill in the requested details
 <br clear="right"/>
 
