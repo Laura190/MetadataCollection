@@ -42,6 +42,7 @@ After clicking _Save_ a file called **Metadata.csv** will be created in the sele
 > Other,Control
 
 or like this in a spreadsheet.
+
 <img src="./images/ExampleTable.png">
 
 The keys in the table are taken from the Study Component and Biosample sections of [Recommended Metadata for Biological Images (REMBI)](https://www.nature.com/articles/s41592-021-01166-8) guidelines. The "Imaging Method" and "Microscope" values are defined in the app _Settings_ (see below for details) and relate to the imaging system. The "Study Component Name" is automatically pulled from the data folder selected. The other values are the information inputted by the user. Here the biological entity has been left blank as the whole organism was imaged.
@@ -53,7 +54,7 @@ If your imaging session is similar to one you undertook previously, or you have 
 The values in _Settings_ will apply to all users, so only admins should alter the settings. To change the settings go to Settings > Change Settings. A pop up box will open asking for:
 
 ##### Select default data folder
-This should be set to the data drive of the microscope and will be the default location for saving the **Metadata.csv** file until the user selects a specific data folder. 
+This should be set to the data drive of the microscope and will be the default location for saving the **Metadata.csv** file until the user selects a specific data folder.
 
 ##### Text Box
 The text box below allows any text to be entered. Here, comma separated key value pairs should be entered that describe the imaging system. These details will be added to all metadata files for all users.
@@ -66,4 +67,3 @@ Malone J, Holloway E, Adamusiak T, Kapushesky M, Zheng J, Kolesnikov N, Zhukova 
 Jupp S. et al. (2015) A new Ontology Lookup Service at EMBL-EBI. In: Malone, J. et al. (eds.) Proceedings of SWAT4LS International Conference 2015
 
 Schoch CL, et al. NCBI Taxonomy: a comprehensive update on curation, resources and tools. Database (Oxford). 2020: baaa062. PubMed: 32761142 PMC: PMC7408187
-
