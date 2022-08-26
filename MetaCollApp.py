@@ -5,6 +5,7 @@ from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import QSettings
 import csv
 import os.path
+import webbrowser
 
 
 class home(QMainWindow):
@@ -35,7 +36,7 @@ class home(QMainWindow):
         settings_menu.addAction(change_settings_act)
         help_menu = menu_bar.addMenu('&Help')
         document = QAction('&Documentation', self)
-        # document.triggered.connect(self.change_settings.show)
+        document.triggered.connect(self.open_doc)
         help_menu.addAction(document)
         self.setCentralWidget(self.centralWidget())
 
@@ -161,6 +162,10 @@ class home(QMainWindow):
                 self.organism_edt.setText(meta_dict['Organism'])
                 self.variables_edt.setText(meta_dict['Variables']),
                 self.add_edt.setPlainText(meta_dict['Other'])
+
+    def open_doc(self):
+        webbrowser.open(
+            "https://laura190.github.io/MetadataCollection/")
 
 
 class Editor(QWidget):
