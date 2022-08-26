@@ -34,6 +34,7 @@ After clicking _Save_ a file called **Metadata.csv** will be created in the sele
 
 <p align="right">
 
+|:----------------------------|:--------------------------------------|
 | Imaging Method              | Fluorescense Microscopy               |
 | Microscope                  | Deltavison Elite                      |
 | Study Component Name        | C001_Dicty                            |
