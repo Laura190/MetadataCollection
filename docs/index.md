@@ -12,7 +12,7 @@ Fill in the requested details. Hovering over the blue "i" icons will give more i
 <br clear="right"/>
 
 ##### Select data folder
-This is the folder where you will be storing your image data. Click the _Browse_ button to open the file browser to browse for a folder or can create a new folder for you imaging session.
+This is the folder where you will be storing your image data. Click the _Browse_ button to open the file browser to browse for a folder or create a new folder for your imaging session.
 
 ##### Description
 Here you should describe your imaging session. Briefly describe what you are aiming to achive
@@ -28,6 +28,33 @@ List the variables in your study. These could be intrinsic (e.g. genetic), extri
 
 ##### Other
 Here you can include any other information about your imaging session. For example, if you are using abbreviations in file names you could include the definitions here. You could also include information about the preparation of the sample, how signal is generated or what each channel shows.
+
+## Output
+After clicking _Save_ a file called **Metadata.csv** will be created in the selected data folder. This can be opened in a text or spreadsheet editor. This will include all the details that you entered, as well as a few that are specific to the imaging system used. An example of the **Metadata.csv** may look something like this:
+
+<align="right">
+
+| Imaging Method | Fluorescense Microscopy |
+| Microscope | Deltavison Elite |
+| Study Component Name | C001_Dicty |
+| Study Component Description | Migration of dictyostelium discoideum |
+| Biological Entity | |
+| Organism | Dictyostelium discoideum |
+| Variables | pME-LifeAct-GFP and Time
+| Other | Control |
+
+> Imaging Method,Fluorescense Microscopy
+> Microscope,Deltavison Elite
+> Study Component Name, C001_Dicty
+> Study Component Description,Migration of dictyostelium discoideum
+> Biological Entity,
+> Organism,Dictyostelium discoideum
+> Variables,pME-LifeAct-GFP and Time
+> Other,Control
+
+<br clear="right"/>
+
+
 
 
 
