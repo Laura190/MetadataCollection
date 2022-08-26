@@ -7,8 +7,9 @@ An app to collect essential metadata for bioimaging.
 
 # Getting Started
 
-<img align="right" src="./images/StartingScreen.png">
+<img align="right" width=200px src="./images/StartingScreen.png">
 Fill in the requested details
+<br clear="right"/>
 
 
 Text can be **bold**, _italic_, or ~~strikethrough~~.
