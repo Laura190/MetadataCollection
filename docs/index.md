@@ -34,14 +34,14 @@ After clicking _Save_ a file called **Metadata.csv** will be created in the sele
 
 <p align="right">
 
-| Imaging Method | Fluorescense Microscopy |
-| Microscope | Deltavison Elite |
-| Study Component Name | C001_Dicty |
+| Imaging Method              | Fluorescense Microscopy               |
+| Microscope                  | Deltavison Elite                      |
+| Study Component Name        | C001_Dicty                            |
 | Study Component Description | Migration of dictyostelium discoideum |
-| Biological Entity | |
-| Organism | Dictyostelium discoideum |
-| Variables | pME-LifeAct-GFP and Time
-| Other | Control |
+| Biological Entity           |                                       |
+| Organism                    | Dictyostelium discoideum              |
+| Variables                   | pME-LifeAct-GFP and Time              |
+| Other                       | Control                               |
 
 > Imaging Method,Fluorescense Microscopy \
 > Microscope,Deltavison Elite \
