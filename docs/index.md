@@ -32,7 +32,7 @@ Here you can include any other information about your imaging session. For examp
 ## Output
 After clicking _Save_ a file called **Metadata.csv** will be created in the selected data folder. This can be opened in a text or spreadsheet editor. This will include all the details that you entered, as well as a few that are specific to the imaging system used. An example of the **Metadata.csv** may look something like this:
 
-<align="right">
+<p align="right">
 
 | Imaging Method | Fluorescense Microscopy |
 | Microscope | Deltavison Elite |
@@ -43,14 +43,14 @@ After clicking _Save_ a file called **Metadata.csv** will be created in the sele
 | Variables | pME-LifeAct-GFP and Time
 | Other | Control |
 
-> Imaging Method,Fluorescense Microscopy
-> Microscope,Deltavison Elite
-> Study Component Name, C001_Dicty
-> Study Component Description,Migration of dictyostelium discoideum
-> Biological Entity,
-> Organism,Dictyostelium discoideum
-> Variables,pME-LifeAct-GFP and Time
-> Other,Control
+> Imaging Method,Fluorescense Microscopy \
+> Microscope,Deltavison Elite \
+> Study Component Name, C001_Dicty \
+> Study Component Description,Migration of dictyostelium discoideum \
+> Biological Entity, \
+> Organism,Dictyostelium discoideum \
+> Variables,pME-LifeAct-GFP and Time \
+> Other,Control \
 
 <br clear="right"/>
 
