@@ -3,7 +3,7 @@ layout: default
 title: "CAMDU Metadata Collection"
 ---
 
-An app to collect essential metadata for bioimaging.
+The CAMDU Metadata Collection app collects essential metadata for bioimages.
 
 # Getting Started
 
